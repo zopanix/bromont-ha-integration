@@ -12,6 +12,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
+from homeassistant.helpers.entity import DeviceInfo
 
 from .const import DOMAIN, ATTRIBUTION
 
@@ -82,14 +83,21 @@ class BromontSensorBase(CoordinatorEntity, SensorEntity):
     """Base class for Bromont sensors."""
 
     _attr_attribution = ATTRIBUTION
-    _attr_has_entity_name = True
+    _attr_has_entity_name = False
 
     def __init__(self, coordinator, sensor_type: str, name: str):
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._sensor_type = sensor_type
-        self._attr_name = name
-        self._attr_unique_id = f"bromont_{sensor_type}"
+        self._attr_name = f"Ski Bromont {name}"
+        self._attr_unique_id = f"ski_bromont_{sensor_type}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(DOMAIN, "bromont_mountain")},
+            name="Ski Bromont",
+            manufacturer="Ski Bromont",
+            model="Mountain Conditions",
+            configuration_url="https://www.skibromont.com",
+        )
 
 
 # Status Sensors

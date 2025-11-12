@@ -96,12 +96,12 @@ All sensors will be automatically created under a single device called "Bromont 
 type: entities
 title: Bromont Conditions
 entities:
-  - sensor.bromont_status
-  - sensor.bromont_snow_24h
-  - sensor.bromont_trails_day
-  - sensor.bromont_lifts_day
-  - sensor.bromont_surface_condition
-  - sensor.bromont_base_depth
+  - sensor.ski_bromont_status
+  - sensor.ski_bromont_snow_24h
+  - sensor.ski_bromont_trails_day
+  - sensor.ski_bromont_lifts_day
+  - sensor.ski_bromont_surface
+  - sensor.ski_bromont_base
 ```
 
 ### Example Glance Card
@@ -110,13 +110,13 @@ entities:
 type: glance
 title: Bromont Quick View
 entities:
-  - entity: sensor.bromont_snow_24h
+  - entity: sensor.ski_bromont_snow_24h
     name: 24h Snow
-  - entity: sensor.bromont_trails_day
+  - entity: sensor.ski_bromont_trails_day
     name: Trails
-  - entity: sensor.bromont_lifts_day
+  - entity: sensor.ski_bromont_lifts_day
     name: Lifts
-  - entity: sensor.bromont_status
+  - entity: sensor.ski_bromont_status
     name: Status
 ```
 
@@ -127,12 +127,12 @@ automation:
   - alias: "Notify on Fresh Snow"
     trigger:
       - platform: numeric_state
-        entity_id: sensor.bromont_snow_24h
+        entity_id: sensor.ski_bromont_snow_24h
         above: 10
     action:
       - service: notify.mobile_app
         data:
-          message: "Fresh powder at Bromont! {{ states('sensor.bromont_snow_24h') }}cm in 24h"
+          message: "Fresh powder at Bromont! {{ states('sensor.ski_bromont_snow_24h') }}cm in 24h"
           title: "Powder Alert! 🎿"
 ```
 
@@ -143,9 +143,9 @@ template:
   - sensor:
       - name: "Bromont Conditions Summary"
         state: >
-          {% set snow = states('sensor.bromont_snow_24h') %}
-          {% set trails = states('sensor.bromont_trails_day') %}
-          {% set status = states('sensor.bromont_status') %}
+          {% set snow = states('sensor.ski_bromont_snow_24h') %}
+          {% set trails = states('sensor.ski_bromont_trails_day') %}
+          {% set status = states('sensor.ski_bromont_status') %}
           {{ status }}: {{ trails }} trails, {{ snow }}cm fresh snow
 ```
 
@@ -153,37 +153,37 @@ template:
 
 | Sensor | Description | Unit |
 |--------|-------------|------|
-| `sensor.bromont_status` | Mountain status (open/closed) | - |
-| `sensor.bromont_date` | Current date | - |
-| `sensor.bromont_last_update` | Last update timestamp | - |
-| `sensor.bromont_snow_24h` | Snow accumulation (24h) | cm |
-| `sensor.bromont_snow_48h` | Snow accumulation (48h) | cm |
-| `sensor.bromont_snow_7days` | Snow accumulation (7 days) | cm |
-| `sensor.bromont_snow_total` | Total snow accumulation | cm |
-| `sensor.bromont_surface_condition` | Surface condition | - |
-| `sensor.bromont_base_depth` | Base depth | - |
-| `sensor.bromont_coverage` | Coverage percentage | - |
-| `sensor.bromont_lifts_day` | Lifts open (day) | - |
-| `sensor.bromont_lifts_night` | Lifts open (night) | - |
-| `sensor.bromont_trails_day` | Trails open (day) | - |
-| `sensor.bromont_trails_night` | Trails open (night) | - |
-| `sensor.bromont_glades_day` | Glades open (day) | - |
-| `sensor.bromont_glades_night` | Glades open (night) | - |
-| `sensor.bromont_parks_day` | Snow parks open (day) | - |
-| `sensor.bromont_parks_night` | Snow parks open (night) | - |
-| `sensor.bromont_hiking_day` | Alpine hiking trails (day) | - |
-| `sensor.bromont_hiking_night` | Alpine hiking trails (night) | - |
-| `sensor.bromont_snowshoeing_day` | Snowshoeing trails (day) | - |
-| `sensor.bromont_snowshoeing_night` | Snowshoeing trails (night) | - |
-| `sensor.bromont_parking_day` | Parking availability (day) | - |
-| `sensor.bromont_parking_night` | Parking availability (night) | - |
-| `sensor.bromont_terrain_village` | Versant du Village status | % |
-| `sensor.bromont_terrain_lac` | Versant du Lac status | % |
-| `sensor.bromont_terrain_cantons` | Versant des Cantons status | % |
-| `sensor.bromont_terrain_epinettes` | Versant des Épinettes status | % |
-| `sensor.bromont_terrain_mont_soleil` | Mont Soleil status | % |
-| `sensor.bromont_terrain_midi` | Versant du Midi status | % |
-| `sensor.bromont_terrain_cote_ouest` | Versant de la Côte Ouest status | % |
+| `sensor.ski_bromont_status` | Mountain status (open/closed) | - |
+| `sensor.ski_bromont_date` | Current date | - |
+| `sensor.ski_bromont_last_update` | Last update timestamp | - |
+| `sensor.ski_bromont_snow_24h` | Snow accumulation (24h) | cm |
+| `sensor.ski_bromont_snow_48h` | Snow accumulation (48h) | cm |
+| `sensor.ski_bromont_snow_7days` | Snow accumulation (7 days) | cm |
+| `sensor.ski_bromont_snow_total` | Total snow accumulation | cm |
+| `sensor.ski_bromont_surface` | Surface condition | - |
+| `sensor.ski_bromont_base` | Base depth | - |
+| `sensor.ski_bromont_coverage` | Coverage percentage | - |
+| `sensor.ski_bromont_lifts_day` | Lifts open (day) | - |
+| `sensor.ski_bromont_lifts_night` | Lifts open (night) | - |
+| `sensor.ski_bromont_trails_day` | Trails open (day) | - |
+| `sensor.ski_bromont_trails_night` | Trails open (night) | - |
+| `sensor.ski_bromont_glades_day` | Glades open (day) | - |
+| `sensor.ski_bromont_glades_night` | Glades open (night) | - |
+| `sensor.ski_bromont_parks_day` | Snow parks open (day) | - |
+| `sensor.ski_bromont_parks_night` | Snow parks open (night) | - |
+| `sensor.ski_bromont_hiking_day` | Alpine hiking trails (day) | - |
+| `sensor.ski_bromont_hiking_night` | Alpine hiking trails (night) | - |
+| `sensor.ski_bromont_snowshoeing_day` | Snowshoeing trails (day) | - |
+| `sensor.ski_bromont_snowshoeing_night` | Snowshoeing trails (night) | - |
+| `sensor.ski_bromont_parking_day` | Parking availability (day) | - |
+| `sensor.ski_bromont_parking_night` | Parking availability (night) | - |
+| `sensor.ski_bromont_terrain_village` | Versant du Village status | % |
+| `sensor.ski_bromont_terrain_lac` | Versant du Lac status | % |
+| `sensor.ski_bromont_terrain_cantons` | Versant des Cantons status | % |
+| `sensor.ski_bromont_terrain_epinettes` | Versant des Épinettes status | % |
+| `sensor.ski_bromont_terrain_mont_soleil` | Mont Soleil status | % |
+| `sensor.ski_bromont_terrain_midi` | Versant du Midi status | % |
+| `sensor.ski_bromont_terrain_cote_ouest` | Versant de la Côte Ouest status | % |
 
 ## Data Source
 
