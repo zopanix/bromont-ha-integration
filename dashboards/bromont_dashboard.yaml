@@ -1,0 +1,163 @@
+title: Bromont Mountain
+views:
+  - title: Mountain Conditions
+    path: conditions
+    icon: mdi:ski
+    theme: Backend-selected
+    badges: []
+    cards:
+      - type: heading
+        heading: Bromont Mountain
+        heading_style: title
+        icon: mdi:ski
+        badges:
+          - type: entity
+            entity: sensor.ski_bromont_status
+            show_name: false
+            show_icon: false
+          - type: entity
+            entity: sensor.ski_bromont_date
+            show_name: false
+            show_icon: false
+      - type: heading
+        heading: Fresh Snow
+        heading_style: subtitle
+        icon: mdi:snowflake
+      - type: grid
+        columns: 3
+        square: false
+        cards:
+          - type: tile
+            entity: sensor.ski_bromont_snow_24h
+            name: Snow 24h
+            icon: mdi:snowflake
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: sensor.ski_bromont_snow_48h
+            name: Snow 48h
+            icon: mdi:snowflake-variant
+          - type: tile
+            entity: sensor.ski_bromont_snow_7_days
+            name: Snow 7 Days
+            icon: mdi:weather-snowy-heavy
+            vertical: false
+            features_position: bottom
+      - type: heading
+        heading: Snow Statistics
+        heading_style: subtitle
+        icon: mdi:snowflake-melt
+      - type: grid
+        columns: 4
+        square: false
+        cards:
+          - type: tile
+            entity: sensor.ski_bromont_snow_total
+            name: Total Snow
+            icon: mdi:snowflake-melt
+          - type: tile
+            entity: sensor.ski_bromont_base_depth
+            name: Base Depth
+            icon: mdi:arrow-expand-vertical
+          - type: tile
+            entity: sensor.ski_bromont_surface_condition
+            name: Surface
+            icon: mdi:texture
+          - type: tile
+            entity: sensor.ski_bromont_coverage
+            name: Coverage
+            icon: mdi:percent
+      - type: heading
+        heading: Operations
+        heading_style: subtitle
+        icon: mdi:cog
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: entities
+            title: Day Operations
+            show_header_toggle: false
+            entities:
+              - entity: sensor.ski_bromont_lifts_day
+                name: Lifts Open
+                icon: mdi:ski-lift
+              - entity: sensor.ski_bromont_trails_day
+                name: Trails Open
+                icon: mdi:ski
+              - entity: sensor.ski_bromont_glades_day
+                name: Glades Open
+                icon: mdi:pine-tree
+              - entity: sensor.ski_bromont_snowshoeing_day
+                name: Snowshoeing
+                icon: mdi:shoe-print
+              - entity: sensor.ski_bromont_parking_day
+                name: Parking
+                icon: mdi:parking
+          - type: entities
+            title: Night Operations
+            show_header_toggle: false
+            entities:
+              - entity: sensor.ski_bromont_lifts_night
+                name: Lifts Open
+                icon: mdi:ski-lift
+              - entity: sensor.ski_bromont_trails_night
+                name: Trails Open
+                icon: mdi:ski
+              - entity: sensor.ski_bromont_glades_night
+                name: Glades Open
+                icon: mdi:pine-tree
+              - entity: sensor.ski_bromont_snowshoeing_night
+                name: Snowshoeing
+                icon: mdi:shoe-print
+              - entity: sensor.ski_bromont_parking_night
+                name: Parking
+                icon: mdi:parking
+      - type: heading
+        heading: Weather Forecast
+        heading_style: subtitle
+        icon: mdi:weather-partly-cloudy
+      - type: weather-forecast
+        entity: weather.granby_forecast
+        show_forecast: true
+        forecast_type: daily
+      - type: heading
+        heading: Terrain Overview
+        heading_style: subtitle
+        icon: mdi:mountain
+      - type: grid
+        columns: 4
+        square: false
+        cards:
+          - type: tile
+            entity: sensor.ski_bromont_terrain_village
+            name: Village
+            icon: mdi:home-mountain
+          - type: tile
+            entity: sensor.ski_bromont_terrain_lac
+            name: Lac
+            icon: mdi:waves
+          - type: tile
+            entity: sensor.ski_bromont_terrain_cantons
+            name: Cantons
+            icon: mdi:mountain
+          - type: tile
+            entity: sensor.ski_bromont_terrain_epinettes
+            name: Épinettes
+            icon: mdi:pine-tree
+          - type: tile
+            entity: sensor.ski_bromont_terrain_mont_soleil
+            name: Mont Soleil
+            icon: mdi:white-balance-sunny
+          - type: tile
+            entity: sensor.ski_bromont_terrain_midi
+            name: Midi
+            icon: mdi:weather-sunset
+          - type: tile
+            entity: sensor.ski_bromont_terrain_cote_ouest
+            name: Côte Ouest
+            icon: mdi:compass-west
+      - type: markdown
+        content: |-
+          **Last Updated:** {{ states('sensor.ski_bromont_last_update') }}
+          *Data provided by Ski Bromont - Refresh every few minutes*
