@@ -618,14 +618,23 @@ class BromontTrailSensor(BromontSensorBase):
         trail_name = trail.get("name", "Unknown")
         trail_number = trail.get("number", "")
 
+        # Try to match with OSM data
+        self._osm_data = None
+        if hasattr(coordinator, 'osm_data') and coordinator.osm_data:
+            self._osm_data = coordinator.osm_data.match_trail(trail_name, trail_number)
+
         # Create a safe sensor ID from trail name and number
-        safe_name = re.sub(r"[^a-z0-9_]", "_", trail_name.lower())
-        safe_name = re.sub(r"_+", "_", safe_name).strip("_")
-        sensor_id = (
-            f"trail_{trail_number}_{safe_name}"
-            if trail_number
-            else f"trail_{safe_name}"
-        )
+        # If we have OSM data, use the OSM way ID as the object_id
+        if self._osm_data and self._osm_data.get("osm_id"):
+            sensor_id = f"trail_osm_{self._osm_data['osm_id']}"
+        else:
+            safe_name = re.sub(r"[^a-z0-9_]", "_", trail_name.lower())
+            safe_name = re.sub(r"_+", "_", safe_name).strip("_")
+            sensor_id = (
+                f"trail_{trail_number}_{safe_name}"
+                if trail_number
+                else f"trail_{safe_name}"
+            )
 
         super().__init__(coordinator, sensor_id, f"Trail: {trail_name}")
         self._attr_icon = "mdi:ski"
@@ -658,18 +667,7 @@ class BromontTrailSensor(BromontSensorBase):
         trail_number = self._trail.get("number")
         trail_name = self._trail.get("name")
 
-        for trail in area_trails:
-            if trail.get("number") == trail_number and trail.get("name") == trail_name:
-                return {
-                    "trail_number": trail.get("number", ""),
-                    "trail_name": trail.get("name", ""),
-                    "area": self._area,
-                    "difficulty": trail.get("difficulty", "Unknown"),
-                    "day_status": trail.get("day", "Unknown"),
-                    "night_status": trail.get("night", "-"),
-                }
-
-        return {
+        attributes = {
             "trail_number": self._trail.get("number", ""),
             "trail_name": self._trail.get("name", ""),
             "area": self._area,
@@ -677,3 +675,27 @@ class BromontTrailSensor(BromontSensorBase):
             "day_status": "Unknown",
             "night_status": "Unknown",
         }
+
+        # Update with current trail data
+        for trail in area_trails:
+            if trail.get("number") == trail_number and trail.get("name") == trail_name:
+                attributes.update({
+                    "difficulty": trail.get("difficulty", "Unknown"),
+                    "day_status": trail.get("day", "Unknown"),
+                    "night_status": trail.get("night", "-"),
+                })
+                break
+
+        # Add OSM data if available
+        if self._osm_data:
+            attributes.update({
+                "osm_id": self._osm_data.get("osm_id"),
+                "osm_url": f"https://www.openstreetmap.org/way/{self._osm_data.get('osm_id')}",
+                "osm_piste_type": self._osm_data.get("piste_type"),
+                "osm_difficulty": self._osm_data.get("difficulty"),
+                "osm_grooming": self._osm_data.get("grooming"),
+                "osm_lit": self._osm_data.get("lit"),
+                "osm_oneway": self._osm_data.get("oneway"),
+            })
+
+        return attributes

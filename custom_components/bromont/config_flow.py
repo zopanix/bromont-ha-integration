@@ -34,7 +34,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
     scraper = BromontScraper()
 
     # Test the connection
-    result = await hass.async_add_executor_job(scraper.scrape)
+    result = await scraper.scrape()
 
     if not result:
         raise CannotConnect

@@ -9,6 +9,7 @@ A Home Assistant custom integration that provides real-time ski conditions from 
 
 - **Real-time Updates**: Automatically fetches current mountain conditions
 - **Comprehensive Data**: 30+ sensors covering all aspects of the mountain
+- **OpenStreetMap Integration**: Individual trail sensors with OSM way IDs for mapping
 - **Easy Configuration**: Simple UI-based setup through Home Assistant
 - **Customizable**: Adjust update frequency from 1-60 minutes
 - **HACS Compatible**: Easy installation and updates through HACS
@@ -39,6 +40,20 @@ Status for all mountain sectors:
 - Mont Soleil
 - Versant du Midi
 - Versant de la Côte Ouest
+
+### Individual Trail Sensors (98+ sensors)
+Each trail at Bromont gets its own sensor with:
+- Current status (open/closed)
+- Day and night availability
+- Difficulty level
+- Area/sector location
+- **OpenStreetMap Integration**:
+  - OSM way ID for mapping
+  - Direct link to view trail on OpenStreetMap
+  - OSM difficulty rating
+  - Grooming information
+  - Lighting status
+  - Additional trail metadata
 
 ### Status Sensors (3 sensors)
 - Mountain status (open/closed)
@@ -149,6 +164,72 @@ template:
           {{ status }}: {{ trails }} trails, {{ snow }}cm fresh snow
 ```
 
+## OpenStreetMap Integration
+
+Each individual trail sensor now includes OpenStreetMap data, allowing you to:
+- Display trails on interactive maps
+- Link directly to trail information on OpenStreetMap
+- Access additional trail metadata (grooming, lighting, difficulty)
+
+### Trail Sensor Attributes
+
+Every trail sensor includes these attributes:
+
+**Bromont Data:**
+- `trail_number`: Trail number from Bromont
+- `trail_name`: Trail name
+- `area`: Mountain sector (e.g., "Versant du Village")
+- `difficulty`: Bromont difficulty rating
+- `day_status`: Day operation status
+- `night_status`: Night operation status
+
+**OpenStreetMap Data (when available):**
+- `osm_id`: OpenStreetMap way ID (unique identifier)
+- `osm_url`: Direct link to view trail on OpenStreetMap
+- `osm_piste_type`: Type of piste (downhill, nordic, etc.)
+- `osm_difficulty`: OSM difficulty rating
+- `osm_grooming`: Grooming type (classic, mogul, backcountry)
+- `osm_lit`: Whether trail is lit (yes/no)
+- `osm_oneway`: One-way direction if applicable
+
+### Example: Using Trail Data in Dashboard
+
+```yaml
+type: entities
+title: Cowansville Trail
+entities:
+  - entity: sensor.ski_bromont_trail_47_cowansville
+    name: Status
+  - entity: sensor.ski_bromont_trail_47_cowansville
+    type: attribute
+    attribute: difficulty
+    name: Difficulty
+  - entity: sensor.ski_bromont_trail_47_cowansville
+    type: attribute
+    attribute: osm_id
+    name: OpenStreetMap ID
+  - entity: sensor.ski_bromont_trail_47_cowansville
+    type: attribute
+    attribute: osm_url
+    name: View on OSM
+```
+
+### Displaying Trails on a Map
+
+To display trails on an interactive map, you can use custom map cards from HACS:
+
+1. Install a map card (e.g., [ha-map-card](https://github.com/nathan-gs/ha-map-card))
+2. Use the `osm_id` attribute to link trails to their OpenStreetMap geometry
+3. See `dashboards/trails_map_example.yaml` for complete examples
+
+### Trail Sensor Naming
+
+Trail sensors use one of two naming patterns:
+- `sensor.ski_bromont_trail_osm_{osm_id}` - When matched with OpenStreetMap data
+- `sensor.ski_bromont_trail_{number}_{name}` - When no OSM match is found
+
+This ensures each trail has a unique, stable entity ID that can be used in automations and dashboards.
+
 ## Available Sensors
 
 | Sensor | Description | Unit |
@@ -223,9 +304,16 @@ custom_components/bromont/
 ├── manifest.json       # Integration metadata
 ├── scraper.py          # Web scraping logic
 ├── sensor.py           # Sensor platform
+├── osm_data.py         # OpenStreetMap integration
 ├── strings.json        # UI strings
 └── translations/
-    └── en.json         # English translations
+    ├── en.json         # English translations
+    └── fr.json         # French translations
+
+dashboards/
+├── bromont_dashboard.yaml      # Main dashboard example
+├── trails_map_example.yaml     # Trail mapping examples
+└── README.md                   # Dashboard documentation
 ```
 
 ## Legacy Add-on
@@ -258,6 +346,7 @@ For issues, feature requests, or questions:
 ## Acknowledgments
 
 - Data provided by [Ski Bromont](https://www.skibromont.com)
+- Trail geometry data from [OpenStreetMap](https://www.openstreetmap.org)
 - Built for the Home Assistant community
 
 ---

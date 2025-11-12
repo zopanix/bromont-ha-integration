@@ -1,6 +1,7 @@
 """Bromont Mountain web scraper."""
 
-import requests
+import aiohttp
+import async_timeout
 from bs4 import BeautifulSoup
 from datetime import datetime
 from typing import Dict, Optional
@@ -16,35 +17,38 @@ class BromontScraper:
         }
         self.data = {}
 
-    def scrape(self) -> Dict:
+    async def scrape(self) -> Dict:
         """Main scraping method."""
         try:
-            response = requests.get(self.url, headers=self.headers, timeout=10)
-            response.raise_for_status()
-            soup = BeautifulSoup(response.content, "lxml")
+            async with async_timeout.timeout(10):
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(self.url, headers=self.headers) as response:
+                        response.raise_for_status()
+                        content = await response.read()
+                        soup = BeautifulSoup(content, "lxml")
 
-            # Extract all data sections
-            self.data = {
-                "scraped_at": datetime.now().isoformat(),
-                "date": self._get_date(soup),
-                "hours": self._get_hours(soup),
-                "last_update": self._get_last_update(soup),
-                "accumulations": self._get_accumulations(soup),
-                "conditions": self._get_conditions(soup),
-                "terrain": self._get_terrain(soup),
-                "lifts": self._get_lifts(soup),
-                "trails": self._get_trails(soup),
-                "glades": self._get_glades(soup),
-                "snow_parks": self._get_snow_parks(soup),
-                "alpine_hiking": self._get_alpine_hiking(soup),
-                "snowshoeing": self._get_snowshoeing(soup),
-                "mountain_activities": self._get_mountain_activities(soup),
-                "parking": self._get_parking(soup),
-            }
+                        # Extract all data sections
+                        self.data = {
+                            "scraped_at": datetime.now().isoformat(),
+                            "date": self._get_date(soup),
+                            "hours": self._get_hours(soup),
+                            "last_update": self._get_last_update(soup),
+                            "accumulations": self._get_accumulations(soup),
+                            "conditions": self._get_conditions(soup),
+                            "terrain": self._get_terrain(soup),
+                            "lifts": self._get_lifts(soup),
+                            "trails": self._get_trails(soup),
+                            "glades": self._get_glades(soup),
+                            "snow_parks": self._get_snow_parks(soup),
+                            "alpine_hiking": self._get_alpine_hiking(soup),
+                            "snowshoeing": self._get_snowshoeing(soup),
+                            "mountain_activities": self._get_mountain_activities(soup),
+                            "parking": self._get_parking(soup),
+                        }
 
-            return self.data
+                        return self.data
 
-        except requests.RequestException as e:
+        except aiohttp.ClientError as e:
             print(f"Error fetching page: {e}")
             return {}
         except Exception as e:

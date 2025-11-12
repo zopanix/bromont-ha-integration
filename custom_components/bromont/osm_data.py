@@ -1,0 +1,154 @@
+"""OpenStreetMap data integration for Bromont trails."""
+
+from __future__ import annotations
+
+import logging
+from typing import Dict, List, Optional
+import aiohttp
+import async_timeout
+
+_LOGGER = logging.getLogger(__name__)
+
+# Bromont coordinates (approximate center)
+BROMONT_LAT = 45.3167
+BROMONT_LON = -72.6500
+SEARCH_RADIUS = 3000  # meters
+
+
+class OSMTrailData:
+    """Fetch and manage OpenStreetMap trail data for Bromont."""
+
+    def __init__(self):
+        """Initialize OSM data manager."""
+        self.trails: Dict[str, Dict] = {}
+        self._overpass_url = "https://overpass-api.de/api/interpreter"
+
+    async def fetch_trails(self) -> Dict[str, Dict]:
+        """Fetch trail data from OpenStreetMap."""
+        query = f"""
+        [out:json][timeout:25];
+        (
+          way["piste:type"](around:{SEARCH_RADIUS},{BROMONT_LAT},{BROMONT_LON});
+        );
+        out body;
+        >;
+        out skel qt;
+        """
+
+        try:
+            response = await self._query_overpass(query)
+            if response:
+                self.trails = self._parse_trails(response)
+                _LOGGER.info(f"Fetched {len(self.trails)} trails from OpenStreetMap")
+                return self.trails
+        except Exception as e:
+            _LOGGER.error(f"Error fetching OSM data: {e}")
+            return {}
+
+        return {}
+
+    async def _query_overpass(self, query: str) -> Optional[Dict]:
+        """Query the Overpass API."""
+        try:
+            async with async_timeout.timeout(30):
+                async with aiohttp.ClientSession() as session:
+                    async with session.post(
+                        self._overpass_url,
+                        data={"data": query}
+                    ) as response:
+                        response.raise_for_status()
+                        return await response.json()
+        except aiohttp.ClientError as e:
+            _LOGGER.error(f"Overpass API request failed: {e}")
+            return None
+        except Exception as e:
+            _LOGGER.error(f"Unexpected error querying Overpass API: {e}")
+            return None
+
+    def _parse_trails(self, data: Dict) -> Dict[str, Dict]:
+        """Parse trail data from Overpass API response."""
+        trails = {}
+        
+        for element in data.get("elements", []):
+            if element.get("type") == "way":
+                tags = element.get("tags", {})
+                
+                # Only process ski pistes
+                if tags.get("piste:type") in ["downhill", "nordic", "skitour"]:
+                    trail_name = tags.get("name", "").strip()
+                    trail_ref = tags.get("ref", "").strip()
+                    
+                    # Create a unique key for matching
+                    if trail_name:
+                        trail_info = {
+                            "osm_id": element.get("id"),
+                            "name": trail_name,
+                            "ref": trail_ref,
+                            "piste_type": tags.get("piste:type"),
+                            "difficulty": tags.get("piste:difficulty"),
+                            "grooming": tags.get("piste:grooming"),
+                            "lit": tags.get("lit"),
+                            "oneway": tags.get("piste:oneway"),
+                            "tags": tags,
+                        }
+                        
+                        # Use name as primary key, with ref as fallback
+                        key = trail_name.lower()
+                        trails[key] = trail_info
+                        
+                        # Also index by ref if available
+                        if trail_ref:
+                            trails[f"ref_{trail_ref}"] = trail_info
+
+        return trails
+
+    def match_trail(self, trail_name: str, trail_number: Optional[str] = None) -> Optional[Dict]:
+        """
+        Match a Bromont trail to OSM data.
+        
+        Args:
+            trail_name: Name of the trail from Bromont
+            trail_number: Trail number/reference from Bromont
+            
+        Returns:
+            OSM trail data if found, None otherwise
+        """
+        # Try exact name match first
+        key = trail_name.lower().strip()
+        if key in self.trails:
+            return self.trails[key]
+        
+        # Try matching by trail number/ref
+        if trail_number:
+            ref_key = f"ref_{trail_number}"
+            if ref_key in self.trails:
+                return self.trails[ref_key]
+        
+        # Try fuzzy matching (remove common suffixes/prefixes)
+        for osm_key, osm_trail in self.trails.items():
+            if not osm_key.startswith("ref_"):
+                # Simple fuzzy match - check if names are similar
+                if self._names_similar(trail_name, osm_trail["name"]):
+                    return osm_trail
+        
+        return None
+
+    def _names_similar(self, name1: str, name2: str) -> bool:
+        """Check if two trail names are similar enough to be considered a match."""
+        # Normalize names
+        n1 = name1.lower().strip()
+        n2 = name2.lower().strip()
+        
+        # Exact match
+        if n1 == n2:
+            return True
+        
+        # Check if one contains the other (for cases like "Miami" vs "Miami | Versant du Midi")
+        if n1 in n2 or n2 in n1:
+            return True
+        
+        return False
+
+    def get_osm_url(self, osm_id: int) -> str:
+        """Get the OpenStreetMap URL for a trail."""
+        return f"https://www.openstreetmap.org/way/{osm_id}"

@@ -12,6 +12,7 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, Upda
 
 from .const import DOMAIN
 from .scraper import BromontScraper
+from .osm_data import OSMTrailData
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -25,10 +26,21 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     # Create the scraper
     scraper = BromontScraper()
 
+    # Create OSM data fetcher
+    osm_data = OSMTrailData()
+    
+    # Fetch OSM data once at startup (it doesn't change often)
+    try:
+        await osm_data.fetch_trails()
+        _LOGGER.info("Successfully fetched OpenStreetMap trail data")
+    except Exception as e:
+        _LOGGER.warning(f"Failed to fetch OSM data, continuing without it: {e}")
+
     # Create the coordinator
     coordinator = BromontDataUpdateCoordinator(
         hass,
         scraper=scraper,
+        osm_data=osm_data,
         update_interval=timedelta(minutes=entry.data.get("update_interval", 5)),
     )
 
@@ -59,10 +71,12 @@ class BromontDataUpdateCoordinator(DataUpdateCoordinator):
         self,
         hass: HomeAssistant,
         scraper: BromontScraper,
+        osm_data: OSMTrailData,
         update_interval: timedelta,
     ) -> None:
         """Initialize."""
         self.scraper = scraper
+        self.osm_data = osm_data
 
         super().__init__(
             hass,
@@ -74,7 +88,7 @@ class BromontDataUpdateCoordinator(DataUpdateCoordinator):
     async def _async_update_data(self):
         """Fetch data from Bromont."""
         try:
-            data = await self.hass.async_add_executor_job(self.scraper.scrape)
+            data = await self.scraper.scrape()
             if not data:
                 raise UpdateFailed("Failed to fetch data from Bromont Mountain")
             return data
