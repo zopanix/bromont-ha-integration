@@ -1,0 +1,33 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configure Bromont Mountain Conditions",
+        "description": "Set up the Bromont Mountain Conditions integration.",
+        "data": {
+          "update_interval": "Update interval (minutes)"
+        }
+      }
+    },
+    "error": {
+      "invalid_interval": "Update interval must be between 1 and 60 minutes"
+    },
+    "abort": {
+      "already_configured": "This integration is already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Configure Bromont Mountain Conditions",
+        "description": "Update the configuration for Bromont Mountain Conditions.",
+        "data": {
+          "update_interval": "Update interval (minutes)"
+        }
+      }
+    },
+    "error": {
+      "invalid_interval": "Update interval must be between 1 and 60 minutes"
+    }
+  }
+}

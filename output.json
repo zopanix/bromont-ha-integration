@@ -1,0 +1,1367 @@
+{
+  "accumulations": {
+    "24h": {
+      "imperial": "0\t\t\t\t\t\t\t\t\tpo",
+      "metric": "0 cm"
+    },
+    "48 h": {
+      "imperial": "0",
+      "metric": "0"
+    },
+    "7 jours": {
+      "imperial": "0",
+      "metric": "0"
+    },
+    "Total": {
+      "imperial": "0",
+      "metric": "0"
+    }
+  },
+  "alpine_hiking": {
+    "summary": {
+      "day": {
+        "open": "0",
+        "total": "16"
+      },
+      "night": {
+        "open": "0",
+        "total": "16"
+      }
+    },
+    "trails": [
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "facile",
+        "name": "Cornwall | Versant des \u00c9pinettes",
+        "night": "Ferm\u00e9"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "facile",
+        "name": "Calgary | Versant des Cantons",
+        "night": "Ferm\u00e9"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "intermed",
+        "name": "Miami | Versant du Midi",
+        "night": "Ferm\u00e9"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "intermed",
+        "name": "Skimichurri | Versant du Midi",
+        "night": "Ferm\u00e9"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "intermed",
+        "name": "L'Aigre-Douce | Versant du Village",
+        "night": "Ferm\u00e9"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "intermed",
+        "name": "BBQ | Versant du Village",
+        "night": "Ferm\u00e9"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "intermed",
+        "name": "Barbiquette | Versant des Cantons",
+        "night": "Ferm\u00e9"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "facile",
+        "name": "Tzatziski | Versant du Lac",
+        "night": "Ferm\u00e9"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "difficile",
+        "name": "L'\u00c9pic\u00e9e | Versant des \u00c9pinettes",
+        "night": "Ferm\u00e9"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "intermed",
+        "name": "Chipotle | Versant du midi",
+        "night": "Ferm\u00e9"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "intermed",
+        "name": "Soya | Versant du midi",
+        "night": "Ferm\u00e9"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "intermed",
+        "name": "Ranch | Versant de la C\u00f4te Ouest",
+        "night": "Ferm\u00e9"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "facile",
+        "name": "Mielleuse | Versant de la C\u00f4te Ouest",
+        "night": "Ferm\u00e9"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "facile",
+        "name": "Moutarde et miel | Versant des Cantons",
+        "night": "Ferm\u00e9"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "intermed",
+        "name": "Teriyaski | Versant du Lac",
+        "night": "Ferm\u00e9"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "intermed",
+        "name": "La Slinky | Versant du midi",
+        "night": "Ferm\u00e9"
+      }
+    ]
+  },
+  "conditions": {
+    "base": "--",
+    "couverture": "--",
+    "surface": "--"
+  },
+  "date": "Aujourd\u2019hui, Dimanche 9 Novembre",
+  "glades": {
+    "by_area": {
+      "Mont soleil": [
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Shefford",
+          "night": "Ferm\u00e9",
+          "number": "3"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Farnham",
+          "night": "Ferm\u00e9",
+          "number": "9"
+        }
+      ],
+      "Versant de la C\u00f4te Ouest": [
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "Napa",
+          "night": "-",
+          "number": "132"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "Sonoma",
+          "night": "-",
+          "number": "135"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "Sacramento",
+          "night": "-",
+          "number": "142"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "Santa Monica",
+          "night": "-",
+          "number": "148"
+        }
+      ],
+      "Versant des Cantons": [
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "Jasper",
+          "night": "-",
+          "number": "93"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "Moose Jaw",
+          "night": "Ferm\u00e9",
+          "number": "102"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "Vernon",
+          "night": "Ferm\u00e9",
+          "number": "104"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "Kelowna",
+          "night": "Ferm\u00e9",
+          "number": "110"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "For\u00eat des Cantons",
+          "night": "-",
+          "number": "112"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Grizzly",
+          "night": "-",
+          "number": "113"
+        }
+      ],
+      "Versant des \u00c9pinettes": [
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "Kitchener",
+          "night": "-",
+          "number": "157"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "Markham",
+          "night": "-",
+          "number": "160"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "Pembroke",
+          "night": "-",
+          "number": "165"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "Hearst",
+          "night": "-",
+          "number": "167"
+        }
+      ],
+      "Versant du Lac": [
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Wells",
+          "night": "Ferm\u00e9",
+          "number": "65"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Atlanta",
+          "night": "Ferm\u00e9",
+          "number": "75"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "Cincinnati",
+          "night": "-",
+          "number": "77"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Halifax",
+          "night": "Ferm\u00e9",
+          "number": "80"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Fredericton",
+          "night": "Ferm\u00e9",
+          "number": "81"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Hartford",
+          "night": "Ferm\u00e9",
+          "number": "83"
+        }
+      ],
+      "Versant du Midi": [
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Delray",
+          "night": "-",
+          "number": "119"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Fort Lauderdale",
+          "night": "Ferm\u00e9",
+          "number": "122"
+        }
+      ],
+      "Versant du Village": [
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "St-Lambert",
+          "night": "-",
+          "number": "20"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "Laval",
+          "night": "-",
+          "number": "26"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "Chambly",
+          "night": "-",
+          "number": "44"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "Trois-Rivi\u00e8res",
+          "night": "-",
+          "number": "48"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "St-Tite",
+          "night": "-",
+          "number": "53"
+        }
+      ]
+    },
+    "summary": {
+      "day": {
+        "open": "0",
+        "total": "29"
+      },
+      "night": {
+        "open": "0",
+        "total": "11"
+      }
+    }
+  },
+  "hours": {
+    "status": "Ferm\u00e9"
+  },
+  "last_update": "07-11-2025 11:10:19",
+  "lifts": {
+    "by_area": {
+      "Mont soleil": [
+        {
+          "day": "Ferm\u00e9",
+          "name": "#1A Tapis Magique",
+          "night": "Ferm\u00e9",
+          "realtime": "En temps r\u00e9el  Ferm\u00e9"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "name": "#1B Tapis Magique",
+          "night": "Ferm\u00e9",
+          "realtime": "En temps r\u00e9el  Ferm\u00e9"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "name": "#1C Tapis Magique",
+          "night": "Ferm\u00e9",
+          "realtime": "En temps r\u00e9el  Ferm\u00e9"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "name": "#2 T\u00e9l\u00e9si\u00e8ge quadruple du Mont Soleil",
+          "night": "Ferm\u00e9",
+          "realtime": "En temps r\u00e9el  Ferm\u00e9"
+        }
+      ],
+      "Versant de la C\u00f4te Ouest": [
+        {
+          "day": "Ferm\u00e9",
+          "name": "#8 T\u00e9l\u00e9si\u00e8ge double de la C\u00f4te Ouest",
+          "night": "Ferm\u00e9",
+          "realtime": "En temps r\u00e9el  Ferm\u00e9"
+        }
+      ],
+      "Versant des Cantons": [
+        {
+          "day": "Ferm\u00e9",
+          "name": "#9 T\u00e9l\u00e9si\u00e8ge quadruple des Cantons",
+          "night": "Ferm\u00e9",
+          "realtime": "En temps r\u00e9el  Ferm\u00e9"
+        }
+      ],
+      "Versant des \u00c9pinettes": [
+        {
+          "day": "Ferm\u00e9",
+          "name": "#6 T\u00e9l\u00e9si\u00e8ge quadruple -  L\u2019Express des \u00c9pinettes",
+          "night": "Ferm\u00e9",
+          "realtime": "En temps r\u00e9el  Ferm\u00e9"
+        }
+      ],
+      "Versant du Lac": [
+        {
+          "day": "Ferm\u00e9",
+          "name": "#5 T\u00e9l\u00e9si\u00e8ge quadruple - L'Express du Lac",
+          "night": "Ferm\u00e9",
+          "realtime": "En temps r\u00e9el  Ferm\u00e9"
+        }
+      ],
+      "Versant du Midi": [
+        {
+          "day": "Ferm\u00e9",
+          "name": "#7 T\u00e9l\u00e9si\u00e8ge quadruple du Midi",
+          "night": "Ferm\u00e9",
+          "realtime": "En temps r\u00e9el  Ferm\u00e9"
+        }
+      ],
+      "Versant du Village": [
+        {
+          "day": "Ferm\u00e9",
+          "name": "#3 T\u00e9l\u00e9si\u00e8ge quadruple - La Directe",
+          "night": "Ferm\u00e9",
+          "realtime": "En temps r\u00e9el  Ferm\u00e9"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "name": "#4 T\u00e9l\u00e9si\u00e8ge sextuple et t\u00e9l\u00e9cabines - L'Express du Village",
+          "night": "Ferm\u00e9",
+          "realtime": "En temps r\u00e9el  Ferm\u00e9"
+        }
+      ]
+    },
+    "summary": {
+      "day": {
+        "open": "0",
+        "total": "11"
+      },
+      "night": {
+        "open": "0",
+        "total": "11"
+      }
+    }
+  },
+  "mountain_activities": {
+    "activities": [],
+    "summary": {
+      "day": {
+        "open": "0",
+        "total": "0"
+      }
+    }
+  },
+  "parking": {
+    "by_area": {
+      "Versant du Lac": [
+        {
+          "day": "Ouvert",
+          "name": "P5",
+          "night": "Ouvert"
+        }
+      ],
+      "Versant du Midi": [
+        {
+          "day": "Ferm\u00e9",
+          "name": "P7",
+          "night": "Ferm\u00e9"
+        }
+      ],
+      "Versant du Village": [
+        {
+          "day": "Ferm\u00e9",
+          "name": "P1",
+          "night": "Ferm\u00e9"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "name": "P2",
+          "night": "Ferm\u00e9"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "name": "P4 (Navette/Shuttle)",
+          "night": "Ferm\u00e9"
+        }
+      ]
+    },
+    "summary": {
+      "day": {
+        "open": "1",
+        "total": "5"
+      },
+      "night": {
+        "open": "1",
+        "total": "5"
+      }
+    }
+  },
+  "scraped_at": "2025-11-09T18:40:47.794709",
+  "snow_parks": {
+    "parks": [
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "facile",
+        "location": "Mont Soleil",
+        "name": "Ini PRK",
+        "night": "Ferm\u00e9",
+        "number": "8"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "facile",
+        "location": "Versant du village",
+        "name": "Max Parrot",
+        "night": "Ferm\u00e9",
+        "number": "12"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "facile",
+        "location": "Versant du Village",
+        "name": "P'tit PRK",
+        "night": "Ferm\u00e9",
+        "number": "13"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "difficile",
+        "location": "Versant du village",
+        "name": "Max Parrot",
+        "night": "Ferm\u00e9",
+        "number": "21"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "intermed",
+        "location": "Versant du Village",
+        "name": "Connex PRK",
+        "night": "Ferm\u00e9",
+        "number": "23"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "intermed",
+        "location": "Versant du Village",
+        "name": "Evo PRK",
+        "night": "Ferm\u00e9",
+        "number": "32"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "intermed",
+        "location": "Versant du village, Cowansville",
+        "name": "Vall\u00e9e des bonbons",
+        "night": "Ferm\u00e9",
+        "number": "47"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "intermed",
+        "location": "Versant du Village",
+        "name": "Hero PRK",
+        "night": "Ferm\u00e9",
+        "number": "52"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "facile",
+        "location": "Versant des Cantons, Calgary",
+        "name": "SBX PRK",
+        "night": "Ferm\u00e9",
+        "number": "96"
+      }
+    ],
+    "summary": {
+      "day": {
+        "open": "0",
+        "total": "9"
+      },
+      "night": {
+        "open": "0",
+        "total": "9"
+      }
+    }
+  },
+  "snowshoeing": {
+    "summary": {
+      "day": {
+        "open": "0",
+        "total": "4"
+      },
+      "night": {
+        "open": "0",
+        "total": "4"
+      }
+    },
+    "trails": [
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "facile",
+        "name": "Moutarde et miel | Versant des Cantons",
+        "night": "Ferm\u00e9"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "intermed",
+        "name": "La Babiche | Versant du Village",
+        "night": "Ferm\u00e9"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "intermed",
+        "name": "La Babichette | Versant des Cantons",
+        "night": "Ferm\u00e9"
+      },
+      {
+        "day": "Ferm\u00e9",
+        "difficulty": "intermed",
+        "name": "La Raclette | Versant des \u00c9pinettes",
+        "night": "Ferm\u00e9"
+      }
+    ]
+  },
+  "terrain": {
+    "Mont soleil": "0%",
+    "Versant de la C\u00f4te Ouest": "0%",
+    "Versant des Cantons": "0%",
+    "Versant des \u00c9pinettes": "0%",
+    "Versant du Lac": "0%",
+    "Versant du Midi": "0%",
+    "Versant du Village": "0%"
+  },
+  "trails": {
+    "by_area": {
+      "Mont soleil": [
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Pente-\u00c9cole",
+          "night": "Ferm\u00e9",
+          "number": "1"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Victoriaville",
+          "night": "Ferm\u00e9",
+          "number": "2"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Sorel",
+          "night": "Ferm\u00e9",
+          "number": "4"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Daveluyville",
+          "night": "Ferm\u00e9",
+          "number": "5"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "St-Hyacinthe",
+          "night": "Ferm\u00e9",
+          "number": "7"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Ini PRK",
+          "night": "Ferm\u00e9",
+          "number": "8"
+        }
+      ],
+      "Versant de la C\u00f4te Ouest": [
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Seattle",
+          "night": "Ferm\u00e9",
+          "number": "128"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Oakland",
+          "night": "Ferm\u00e9",
+          "number": "129"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "San Francisco",
+          "night": "Ferm\u00e9",
+          "number": "130"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "San Diego",
+          "night": "Ferm\u00e9",
+          "number": "131"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Pebble Beach",
+          "night": "Ferm\u00e9",
+          "number": "133"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "San Jos\u00e9",
+          "night": "-",
+          "number": "136"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "La Jolla",
+          "night": "Ferm\u00e9",
+          "number": "137"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Santa Barbara",
+          "night": "Ferm\u00e9",
+          "number": "138"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "Pasadena",
+          "night": "-",
+          "number": "139"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "Los Angeles",
+          "night": "Ferm\u00e9",
+          "number": "140"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "Carmel",
+          "night": "-",
+          "number": "141"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "Anaheim",
+          "night": "-",
+          "number": "143"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "Malibu",
+          "night": "-",
+          "number": "144"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Santa Cruz",
+          "night": "Ferm\u00e9",
+          "number": "147"
+        }
+      ],
+      "Versant des Cantons": [
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Medicine Hat",
+          "night": "Ferm\u00e9",
+          "number": "92"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Banff",
+          "night": "-",
+          "number": "94"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Canmore",
+          "night": "Ferm\u00e9",
+          "number": "95"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Calgary",
+          "night": "Ferm\u00e9",
+          "number": "96"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "SBX PRK",
+          "night": "Ferm\u00e9",
+          "number": "96"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Regina",
+          "night": "-",
+          "number": "97"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Winnipeg",
+          "night": "-",
+          "number": "98"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Red Deer",
+          "night": "Ferm\u00e9",
+          "number": "100"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Edmonton",
+          "night": "Ferm\u00e9",
+          "number": "101"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Saskatoon",
+          "night": "Ferm\u00e9",
+          "number": "103"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Kamloops",
+          "night": "Ferm\u00e9",
+          "number": "105"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Vancouver",
+          "night": "Ferm\u00e9",
+          "number": "106"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Kananaskis",
+          "night": "Ferm\u00e9",
+          "number": "107"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Mission",
+          "night": "Ferm\u00e9",
+          "number": "111"
+        }
+      ],
+      "Versant des \u00c9pinettes": [
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "Brantford",
+          "night": "Ferm\u00e9",
+          "number": "99"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Cornwall",
+          "night": "Ferm\u00e9",
+          "number": "150"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Ottawa",
+          "night": "Ferm\u00e9",
+          "number": "152"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Petawawa",
+          "night": "Ferm\u00e9",
+          "number": "153"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Sudbury",
+          "night": "Ferm\u00e9",
+          "number": "154"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "Hawkesbury",
+          "night": "-",
+          "number": "155"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "Barrie",
+          "night": "-",
+          "number": "158"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "Timmins",
+          "night": "-",
+          "number": "161"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Kingston",
+          "night": "Ferm\u00e9",
+          "number": "163"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Trenton",
+          "night": "Ferm\u00e9",
+          "number": "168"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Belleville",
+          "night": "Ferm\u00e9",
+          "number": "172"
+        }
+      ],
+      "Versant du Lac": [
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Toronto",
+          "night": "Ferm\u00e9",
+          "number": "61"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Cleveland",
+          "night": "Ferm\u00e9",
+          "number": "62"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "D\u00e9troit",
+          "night": "Ferm\u00e9",
+          "number": "63"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "New York",
+          "night": "Ferm\u00e9",
+          "number": "64"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "Buffalo",
+          "night": "-",
+          "number": "67"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "Washington",
+          "night": "Ferm\u00e9",
+          "number": "68"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "Albany",
+          "night": "Ferm\u00e9",
+          "number": "69"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "Philadelphie",
+          "night": "Ferm\u00e9",
+          "number": "70"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Burlington",
+          "night": "Ferm\u00e9",
+          "number": "71"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Niagara",
+          "night": "Ferm\u00e9",
+          "number": "72"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Hamilton",
+          "night": "Ferm\u00e9",
+          "number": "73"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Portland",
+          "night": "Ferm\u00e9",
+          "number": "76"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Pittsburgh",
+          "night": "Ferm\u00e9",
+          "number": "78"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Augusta",
+          "night": "Ferm\u00e9",
+          "number": "79"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "St-Louis",
+          "night": "Ferm\u00e9",
+          "number": "82"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Plattsburgh",
+          "night": "Ferm\u00e9",
+          "number": "85"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Syracuse",
+          "night": "Ferm\u00e9",
+          "number": "86"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "C\u00f4te est",
+          "night": "Ferm\u00e9",
+          "number": "87"
+        }
+      ],
+      "Versant du Midi": [
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Miami",
+          "night": "Ferm\u00e9",
+          "number": "120"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Pompano",
+          "night": "Ferm\u00e9",
+          "number": "121"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Orlando",
+          "night": "Ferm\u00e9",
+          "number": "123"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Daytona",
+          "night": "Ferm\u00e9",
+          "number": "124"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Tampa",
+          "night": "Ferm\u00e9",
+          "number": "125"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Fort Myers",
+          "night": "Ferm\u00e9",
+          "number": "126"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Keys",
+          "night": "Ferm\u00e9",
+          "number": "127"
+        }
+      ],
+      "Versant du Village": [
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Brome",
+          "night": "Ferm\u00e9",
+          "number": "11"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Max Parrot",
+          "night": "Ferm\u00e9",
+          "number": "12"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "P'tit PRK",
+          "night": "Ferm\u00e9",
+          "number": "13"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Iron Hill",
+          "night": "Ferm\u00e9",
+          "number": "15"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Bromont",
+          "night": "Ferm\u00e9",
+          "number": "17"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "Max Parrot",
+          "night": "Ferm\u00e9",
+          "number": "21"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "Knowlford",
+          "night": "Ferm\u00e9",
+          "number": "22"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Connex PRK",
+          "night": "Ferm\u00e9",
+          "number": "23"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "Knowlton",
+          "night": "Ferm\u00e9",
+          "number": "27"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "Bedford",
+          "night": "Ferm\u00e9",
+          "number": "28"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Beloeil",
+          "night": "Ferm\u00e9",
+          "number": "30"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "Magog",
+          "night": "Ferm\u00e9",
+          "number": "31"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Evo PRK",
+          "night": "Ferm\u00e9",
+          "number": "32"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "Fulford",
+          "night": "Ferm\u00e9",
+          "number": "33"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "Coupe du Monde",
+          "night": "Ferm\u00e9",
+          "number": "34"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "Marieville",
+          "night": "Ferm\u00e9",
+          "number": "35"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "St-Paul L'Ermite",
+          "night": "-",
+          "number": "36"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Warden",
+          "night": "Ferm\u00e9",
+          "number": "37"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "Waterloo",
+          "night": "-",
+          "number": "38"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Drummondville",
+          "night": "-",
+          "number": "39"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "facile",
+          "name": "Roxton",
+          "night": "Ferm\u00e9",
+          "number": "40"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "tdifficile",
+          "name": "Sherbrooke",
+          "night": "-",
+          "number": "41"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "difficile",
+          "name": "Montr\u00e9al",
+          "night": "Ferm\u00e9",
+          "number": "42"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Cowansville",
+          "night": "Ferm\u00e9",
+          "number": "47"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Vall\u00e9e des bonbons",
+          "night": "Ferm\u00e9",
+          "number": "47"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Mystic",
+          "night": "Ferm\u00e9",
+          "number": "50"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Grand Loup",
+          "night": "Ferm\u00e9",
+          "number": "51"
+        },
+        {
+          "day": "Ferm\u00e9",
+          "difficulty": "intermed",
+          "name": "Hero PRK",
+          "night": "Ferm\u00e9",
+          "number": "52"
+        }
+      ]
+    },
+    "summary": {
+      "day": {
+        "open": "0",
+        "total": "98"
+      },
+      "night": {
+        "open": "0",
+        "total": "82"
+      }
+    }
+  }
+}

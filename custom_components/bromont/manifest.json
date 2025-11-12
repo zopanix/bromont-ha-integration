@@ -1,0 +1,17 @@
+{
+  "domain": "bromont",
+  "name": "Bromont Mountain Conditions",
+  "codeowners": [
+    "@zopanix"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/zopanix/ha-bromont-conditions",
+  "integration_type": "hub",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/zopanix/ha-bromont-conditions/issues",
+  "requirements": [
+    "beautifulsoup4>=4.12.0",
+    "lxml>=4.9.0"
+  ],
+  "version": "1.0.0"
+}

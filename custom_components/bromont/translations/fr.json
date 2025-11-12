@@ -1,0 +1,33 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configurer les conditions de Ski Bromont",
+        "description": "Configurer l'intégration des conditions de Ski Bromont.",
+        "data": {
+          "update_interval": "Intervalle de mise à jour (minutes)"
+        }
+      }
+    },
+    "error": {
+      "invalid_interval": "L'intervalle de mise à jour doit être entre 1 et 60 minutes"
+    },
+    "abort": {
+      "already_configured": "Cette intégration est déjà configurée"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Configurer les conditions de Ski Bromont",
+        "description": "Mettre à jour la configuration des conditions de Ski Bromont.",
+        "data": {
+          "update_interval": "Intervalle de mise à jour (minutes)"
+        }
+      }
+    },
+    "error": {
+      "invalid_interval": "L'intervalle de mise à jour doit être entre 1 et 60 minutes"
+    }
+  }
+}
