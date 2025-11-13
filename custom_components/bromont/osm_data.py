@@ -13,7 +13,7 @@ _LOGGER = logging.getLogger(__name__)
 # Bromont coordinates (approximate center)
 BROMONT_LAT = 45.3167
 BROMONT_LON = -72.6500
-SEARCH_RADIUS = 3000  # meters
+SEARCH_RADIUS = 5000  # meters - increased to capture all trails
 
 
 class OSMTrailData:
@@ -26,10 +26,13 @@ class OSMTrailData:
 
     async def fetch_trails(self) -> Dict[str, Dict]:
         """Fetch trail data from OpenStreetMap with retry logic."""
+        # Query for trails using multiple tag combinations
         query = f"""
         [out:json][timeout:60];
         (
           way["piste:type"](around:{SEARCH_RADIUS},{BROMONT_LAT},{BROMONT_LON});
+          way["piste:name"](around:{SEARCH_RADIUS},{BROMONT_LAT},{BROMONT_LON});
+          relation["piste:type"](around:{SEARCH_RADIUS},{BROMONT_LAT},{BROMONT_LON});
         );
         out body;
         >;
@@ -89,9 +92,16 @@ class OSMTrailData:
             if element.get("type") == "way":
                 tags = element.get("tags", {})
                 
-                # Only process ski pistes
-                if tags.get("piste:type") in ["downhill", "nordic", "skitour"]:
-                    trail_name = tags.get("name", "").strip()
+                # Process ski pistes - check multiple tag combinations
+                piste_type = tags.get("piste:type", "")
+                if piste_type in ["downhill", "nordic", "skitour", "sled", "hike"]:
+                    # Try multiple name tags
+                    trail_name = (
+                        tags.get("name") or
+                        tags.get("piste:name") or
+                        tags.get("ref") or
+                        ""
+                    ).strip()
                     trail_ref = tags.get("ref", "").strip()
                     
                     # Create a unique key for matching
@@ -173,11 +183,11 @@ class OSMTrailData:
     
     def _names_similar(self, name1: str, name2: str) -> bool:
         """Check if two trail names are similar enough to be considered a match."""
-        # Normalize names
-        n1 = name1.lower().strip()
-        n2 = name2.lower().strip()
+        # Normalize names - remove accents, convert to lowercase, normalize punctuation
+        n1 = self._normalize_for_comparison(name1)
+        n2 = self._normalize_for_comparison(name2)
         
-        # Exact match
+        # Exact match after normalization
         if n1 == n2:
             return True
         
@@ -185,7 +195,47 @@ class OSMTrailData:
         if n1 in n2 or n2 in n1:
             return True
         
+        # Check with common variations removed
+        n1_clean = self._remove_common_suffixes(n1)
+        n2_clean = self._remove_common_suffixes(n2)
+        
+        if n1_clean == n2_clean:
+            return True
+        
         return False
+    
+    def _normalize_for_comparison(self, name: str) -> str:
+        """Normalize a trail name for comparison by removing accents, punctuation, etc."""
+        import unicodedata
+        
+        # Convert to lowercase
+        name = name.lower().strip()
+        
+        # Remove accents (é -> e, à -> a, etc.)
+        name = ''.join(
+            c for c in unicodedata.normalize('NFD', name)
+            if unicodedata.category(c) != 'Mn'
+        )
+        
+        # Normalize apostrophes and quotes
+        name = name.replace("'", " ").replace("'", " ").replace("`", " ")
+        
+        # Normalize hyphens and dashes
+        name = name.replace("-", " ").replace("–", " ").replace("—", " ")
+        
+        # Remove multiple spaces
+        name = " ".join(name.split())
+        
+        return name
+    
+    def _remove_common_suffixes(self, name: str) -> str:
+        """Remove common trail suffixes like 'prk', 'park', etc."""
+        # Remove common suffixes
+        suffixes = [" prk", " park", " trail", " piste"]
+        for suffix in suffixes:
+            if name.endswith(suffix):
+                name = name[:-len(suffix)].strip()
+        return name
 
     def get_osm_url(self, osm_id: int) -> str:
         """Get the OpenStreetMap URL for a trail."""
