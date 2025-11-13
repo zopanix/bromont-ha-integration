@@ -617,11 +617,16 @@ class BromontTrailSensor(BromontSensorBase):
         self._trail = trail
         trail_name = trail.get("name", "Unknown")
         trail_number = trail.get("number", "")
+        trail_difficulty = trail.get("difficulty", "")
 
-        # Try to match with OSM data
+        # Try to match with OSM data (pass difficulty for better matching)
         self._osm_data = None
         if hasattr(coordinator, 'osm_data') and coordinator.osm_data:
-            self._osm_data = coordinator.osm_data.match_trail(trail_name, trail_number)
+            self._osm_data = coordinator.osm_data.match_trail(
+                trail_name,
+                trail_number,
+                trail_difficulty
+            )
 
         # Create a safe sensor ID from trail name and number
         # If we have OSM data, use the OSM way ID as the object_id

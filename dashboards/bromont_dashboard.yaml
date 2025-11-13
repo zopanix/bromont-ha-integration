@@ -1,5 +1,316 @@
 title: Bromont Mountain
 views:
+  - title: Home
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading: New section
+          - type: custom:map-card
+            title: Bromont Trails
+            x: 45.3167
+            'y': -72.65
+            entities:
+              - entity: sensor.ski_bromont_trail_brome_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_iron_hill
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_bromont_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_knowlton_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_bedford_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_beloeil_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_magog_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_coupe_du_monde_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_marieville_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_st_paul_l_ermite_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_warden
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_waterloo_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_roxton_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_sherbrooke_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_montreal_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_cowansville
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_grand_loup_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_toronto
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_detroit
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_new_york
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_buffalo
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_washington
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_philadelphie
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_burlington_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_niagara
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_portland
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_pittsburgh
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_augusta
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_st_louis
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_syracuse
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_cote_est
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_medicine_hat_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_banff_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_canmore_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_regina_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_winnipeg_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_red_deer_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_edmonton_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_saskatoon_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_kamloops_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_vancouver
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_kananaskis_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_mission_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_brantford
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_ottawa
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_petawawa
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_sudbury
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_hawkesbury
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_timmins
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_kingston
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_trenton
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_belleville
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_pente_ecole
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_victoriaville_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_sorel_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_daveluyville_2
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_pompano
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_orlando
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_daytona
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_tampa
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_fort_myers
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_keys
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_seattle
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_san_francisco
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_san_diego
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_pebble_beach
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_san_jose
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_la_jolla
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_santa_barbara
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_pasadena
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_los_angeles
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_carmel
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_anaheim
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_malibu
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
+              - entity: sensor.ski_bromont_trail_santa_cruz
+                geojson:
+                  attribute: geojson
+                  hide_marker: true
   - title: Mountain Conditions
     path: conditions
     icon: mdi:ski

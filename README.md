@@ -50,10 +50,7 @@ Each trail at Bromont gets its own sensor with:
 - **OpenStreetMap Integration**:
   - OSM way ID for mapping
   - Direct link to view trail on OpenStreetMap
-  - OSM difficulty rating
-  - Grooming information
-  - Lighting status
-  - Additional trail metadata
+  - Geographic coordinates for map display
 
 ### Status Sensors (3 sensors)
 - Mountain status (open/closed)
@@ -170,7 +167,6 @@ Each individual trail sensor now includes OpenStreetMap data with **geographic c
 - **Display trails on Home Assistant maps** using built-in map cards
 - View actual trail paths with full geometry data
 - Link directly to trail information on OpenStreetMap
-- Access additional trail metadata (grooming, lighting, difficulty)
 - Export trail data to GeoJSON for advanced mapping
 
 ### Trail Sensor Attributes
@@ -195,11 +191,6 @@ Every trail sensor includes these attributes:
 **OpenStreetMap Metadata (when available):**
 - `osm_id`: OpenStreetMap way ID (unique identifier)
 - `osm_url`: Direct link to view trail on OpenStreetMap
-- `osm_piste_type`: Type of piste (downhill, nordic, etc.)
-- `osm_difficulty`: OSM difficulty rating
-- `osm_grooming`: Grooming type (classic, mogul, backcountry)
-- `osm_lit`: Whether trail is lit (yes/no)
-- `osm_oneway`: One-way direction if applicable
 
 ### Example: Using Trail Data in Dashboard
 
