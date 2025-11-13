@@ -697,5 +697,22 @@ class BromontTrailSensor(BromontSensorBase):
                 "osm_lit": self._osm_data.get("lit"),
                 "osm_oneway": self._osm_data.get("oneway"),
             })
+            
+            # Add geographic data for map display
+            center = self._osm_data.get("center")
+            if center:
+                attributes["latitude"] = center[0]
+                attributes["longitude"] = center[1]
+            
+            # Add full trail path as GeoJSON for advanced mapping
+            geojson = self._osm_data.get("geojson")
+            if geojson:
+                attributes["geojson"] = geojson
+            
+            # Add all coordinates for custom visualizations
+            coordinates = self._osm_data.get("coordinates")
+            if coordinates:
+                attributes["trail_coordinates"] = coordinates
+                attributes["trail_points_count"] = len(coordinates)
 
         return attributes

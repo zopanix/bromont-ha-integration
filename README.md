@@ -166,10 +166,12 @@ template:
 
 ## OpenStreetMap Integration
 
-Each individual trail sensor now includes OpenStreetMap data, allowing you to:
-- Display trails on interactive maps
+Each individual trail sensor now includes OpenStreetMap data with **geographic coordinates**, allowing you to:
+- **Display trails on Home Assistant maps** using built-in map cards
+- View actual trail paths with full geometry data
 - Link directly to trail information on OpenStreetMap
 - Access additional trail metadata (grooming, lighting, difficulty)
+- Export trail data to GeoJSON for advanced mapping
 
 ### Trail Sensor Attributes
 
@@ -183,7 +185,14 @@ Every trail sensor includes these attributes:
 - `day_status`: Day operation status
 - `night_status`: Night operation status
 
-**OpenStreetMap Data (when available):**
+**Geographic Data (when OSM match found):**
+- `latitude`: Center point latitude for map display
+- `longitude`: Center point longitude for map display
+- `geojson`: Full trail path as GeoJSON LineString
+- `trail_coordinates`: Array of [lat, lon] points along the trail
+- `trail_points_count`: Number of coordinate points in the trail
+
+**OpenStreetMap Metadata (when available):**
 - `osm_id`: OpenStreetMap way ID (unique identifier)
 - `osm_url`: Direct link to view trail on OpenStreetMap
 - `osm_piste_type`: Type of piste (downhill, nordic, etc.)
@@ -216,11 +225,44 @@ entities:
 
 ### Displaying Trails on a Map
 
-To display trails on an interactive map, you can use custom map cards from HACS:
+Trail sensors with OSM data now include `latitude` and `longitude` attributes, making them compatible with Home Assistant's built-in map card!
 
-1. Install a map card (e.g., [ha-map-card](https://github.com/nathan-gs/ha-map-card))
-2. Use the `osm_id` attribute to link trails to their OpenStreetMap geometry
-3. See `dashboards/trails_map_example.yaml` for complete examples
+**Simple Map Display (Built-in Map Card):**
+
+```yaml
+type: map
+title: Bromont Trails
+default_zoom: 14
+entities:
+  - sensor.ski_bromont_trail_47_cowansville
+  - sensor.ski_bromont_trail_48_sherbrooke
+  # Add more trail entities...
+```
+
+**Auto-populate All Trails with Coordinates:**
+
+```yaml
+type: custom:auto-entities
+card:
+  type: map
+  title: All Bromont Trails
+  default_zoom: 14
+filter:
+  include:
+    - entity_id: sensor.ski_bromont_trail_*
+      attributes:
+        latitude: ">0"  # Only trails with coordinates
+```
+
+**Advanced Mapping Options:**
+
+1. **Built-in Map Card** - Works immediately with latitude/longitude attributes
+2. **Custom Map Cards** - Install from HACS for advanced features:
+   - [Leaflet Map Card](https://github.com/Leaflet/Leaflet) - Display full trail paths using GeoJSON
+   - [Map Card](https://github.com/nathan-gs/ha-map-card) - Enhanced mapping features
+3. **GeoJSON Export** - Use `scripts/export_trails_geojson.py` to export trail data
+
+See `dashboards/trails_map_with_coordinates.yaml` for complete examples and `dashboards/osm_trails_map_guide.md` for advanced mapping techniques.
 
 ### Trail Sensor Naming
 
@@ -304,16 +346,21 @@ custom_components/bromont/
 ├── manifest.json       # Integration metadata
 ├── scraper.py          # Web scraping logic
 ├── sensor.py           # Sensor platform
-├── osm_data.py         # OpenStreetMap integration
+├── osm_data.py         # OpenStreetMap integration with coordinates
 ├── strings.json        # UI strings
 └── translations/
     ├── en.json         # English translations
     └── fr.json         # French translations
 
 dashboards/
-├── bromont_dashboard.yaml      # Main dashboard example
-├── trails_map_example.yaml     # Trail mapping examples
-└── README.md                   # Dashboard documentation
+├── bromont_dashboard.yaml           # Main dashboard example
+├── trails_map_example.yaml          # Trail mapping examples
+├── trails_map_with_coordinates.yaml # Map display with GPS coordinates
+├── osm_trails_map_guide.md          # Advanced mapping guide
+└── README.md                        # Dashboard documentation
+
+scripts/
+└── export_trails_geojson.py         # Export trail data to GeoJSON
 ```
 
 ## Legacy Add-on

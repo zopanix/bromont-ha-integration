@@ -81,13 +81,78 @@ class OSMTrailData:
             _LOGGER.error(f"Unexpected error querying Overpass API: {e}")
             return None
 
+    async def fetch_trail_geometry(self, osm_id: int) -> Optional[Dict]:
+        """
+        Fetch detailed geometry for a specific trail.
+        
+        Returns a dict with:
+        - coordinates: List of [lat, lon] points
+        - center: [lat, lon] of trail center
+        - geojson: GeoJSON LineString representation
+        """
+        query = f"""
+        [out:json];
+        way({osm_id});
+        out geom;
+        """
+        
+        try:
+            response = await self._query_overpass(query)
+            if response and response.get("elements"):
+                way = response["elements"][0]
+                geometry = way.get("geometry", [])
+                
+                if not geometry:
+                    return None
+                
+                # Extract coordinates as [lat, lon] pairs
+                coordinates = [[node["lat"], node["lon"]] for node in geometry]
+                
+                # Calculate center point (simple average)
+                center_lat = sum(coord[0] for coord in coordinates) / len(coordinates)
+                center_lon = sum(coord[1] for coord in coordinates) / len(coordinates)
+                
+                # Create GeoJSON LineString
+                geojson = {
+                    "type": "LineString",
+                    "coordinates": [[coord[1], coord[0]] for coord in coordinates]  # GeoJSON uses [lon, lat]
+                }
+                
+                return {
+                    "coordinates": coordinates,  # [lat, lon] format for HA
+                    "center": [center_lat, center_lon],
+                    "geojson": geojson,
+                    "bounds": {
+                        "min_lat": min(coord[0] for coord in coordinates),
+                        "max_lat": max(coord[0] for coord in coordinates),
+                        "min_lon": min(coord[1] for coord in coordinates),
+                        "max_lon": max(coord[1] for coord in coordinates),
+                    }
+                }
+        except Exception as e:
+            _LOGGER.error(f"Error fetching geometry for OSM way {osm_id}: {e}")
+            return None
+        
+        return None
+
     def _parse_trails(self, data: Dict) -> Dict[str, Dict]:
         """Parse trail data from Overpass API response."""
         trails = {}
+        nodes = {}
         
         elements = data.get("elements", [])
         _LOGGER.debug(f"Processing {len(elements)} elements from Overpass API")
         
+        # First pass: collect all nodes
+        for element in elements:
+            if element.get("type") == "node":
+                node_id = element.get("id")
+                nodes[node_id] = {
+                    "lat": element.get("lat"),
+                    "lon": element.get("lon")
+                }
+        
+        # Second pass: process ways with geometry
         for element in elements:
             if element.get("type") == "way":
                 tags = element.get("tags", {})
@@ -104,6 +169,28 @@ class OSMTrailData:
                     ).strip()
                     trail_ref = tags.get("ref", "").strip()
                     
+                    # Extract geometry if available
+                    geometry = element.get("geometry", [])
+                    coordinates = None
+                    center = None
+                    geojson = None
+                    
+                    if geometry:
+                        # Geometry is already included in the response
+                        coordinates = [[node["lat"], node["lon"]] for node in geometry]
+                        
+                        # Calculate center point
+                        if coordinates:
+                            center_lat = sum(coord[0] for coord in coordinates) / len(coordinates)
+                            center_lon = sum(coord[1] for coord in coordinates) / len(coordinates)
+                            center = [center_lat, center_lon]
+                            
+                            # Create GeoJSON LineString
+                            geojson = {
+                                "type": "LineString",
+                                "coordinates": [[coord[1], coord[0]] for coord in coordinates]  # GeoJSON uses [lon, lat]
+                            }
+                    
                     # Create a unique key for matching
                     if trail_name:
                         trail_info = {
@@ -116,6 +203,9 @@ class OSMTrailData:
                             "lit": tags.get("lit"),
                             "oneway": tags.get("piste:oneway"),
                             "tags": tags,
+                            "coordinates": coordinates,
+                            "center": center,
+                            "geojson": geojson,
                         }
                         
                         # Use name as primary key, with ref as fallback
@@ -126,7 +216,7 @@ class OSMTrailData:
                         if trail_ref:
                             trails[f"ref_{trail_ref}"] = trail_info
                         
-                        _LOGGER.debug(f"Added OSM trail: '{trail_name}' (ref: {trail_ref or 'none'}, id: {element.get('id')})")
+                        _LOGGER.debug(f"Added OSM trail: '{trail_name}' (ref: {trail_ref or 'none'}, id: {element.get('id')}, coords: {len(coordinates) if coordinates else 0})")
 
         _LOGGER.info(f"Parsed {len(trails)} trail entries from {len([e for e in elements if e.get('type') == 'way'])} ways")
         return trails
