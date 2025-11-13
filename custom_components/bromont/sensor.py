@@ -691,11 +691,6 @@ class BromontTrailSensor(BromontSensorBase):
             attributes.update({
                 "osm_id": self._osm_data.get("osm_id"),
                 "osm_url": f"https://www.openstreetmap.org/way/{self._osm_data.get('osm_id')}",
-                "osm_piste_type": self._osm_data.get("piste_type"),
-                "osm_difficulty": self._osm_data.get("difficulty"),
-                "osm_grooming": self._osm_data.get("grooming"),
-                "osm_lit": self._osm_data.get("lit"),
-                "osm_oneway": self._osm_data.get("oneway"),
             })
             
             # Add geographic data for map display

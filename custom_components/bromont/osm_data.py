@@ -34,9 +34,7 @@ class OSMTrailData:
           way["piste:name"](around:{SEARCH_RADIUS},{BROMONT_LAT},{BROMONT_LON});
           relation["piste:type"](around:{SEARCH_RADIUS},{BROMONT_LAT},{BROMONT_LON});
         );
-        out body;
-        >;
-        out skel qt;
+        out geom;
         """
 
         # Retry logic for API reliability
