@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
 from typing import Dict, List, Optional
 import aiohttp
@@ -24,9 +25,9 @@ class OSMTrailData:
         self._overpass_url = "https://overpass-api.de/api/interpreter"
 
     async def fetch_trails(self) -> Dict[str, Dict]:
-        """Fetch trail data from OpenStreetMap."""
+        """Fetch trail data from OpenStreetMap with retry logic."""
         query = f"""
-        [out:json][timeout:25];
+        [out:json][timeout:60];
         (
           way["piste:type"](around:{SEARCH_RADIUS},{BROMONT_LAT},{BROMONT_LON});
         );
@@ -35,22 +36,34 @@ class OSMTrailData:
         out skel qt;
         """
 
-        try:
-            response = await self._query_overpass(query)
-            if response:
-                self.trails = self._parse_trails(response)
-                _LOGGER.info(f"Fetched {len(self.trails)} trails from OpenStreetMap")
-                return self.trails
-        except Exception as e:
-            _LOGGER.error(f"Error fetching OSM data: {e}")
-            return {}
+        # Retry logic for API reliability
+        max_retries = 2
+        for attempt in range(max_retries):
+            try:
+                response = await self._query_overpass(query)
+                if response:
+                    self.trails = self._parse_trails(response)
+                    _LOGGER.info(f"Fetched {len(self.trails)} trails from OpenStreetMap")
+                    return self.trails
+                elif attempt < max_retries - 1:
+                    _LOGGER.warning(f"OSM query attempt {attempt + 1} returned no data, retrying in 3 seconds...")
+                    await asyncio.sleep(3)
+                    continue
+            except Exception as e:
+                if attempt < max_retries - 1:
+                    _LOGGER.warning(f"Error fetching OSM data (attempt {attempt + 1}): {e}, retrying in 3 seconds...")
+                    await asyncio.sleep(3)
+                    continue
+                else:
+                    _LOGGER.error(f"Error fetching OSM data after {max_retries} attempts: {e}")
+                    return {}
 
         return {}
 
     async def _query_overpass(self, query: str) -> Optional[Dict]:
-        """Query the Overpass API."""
+        """Query the Overpass API with extended timeout."""
         try:
-            async with async_timeout.timeout(30):
+            async with async_timeout.timeout(90):
                 async with aiohttp.ClientSession() as session:
                     async with session.post(
                         self._overpass_url,
@@ -69,7 +82,10 @@ class OSMTrailData:
         """Parse trail data from Overpass API response."""
         trails = {}
         
-        for element in data.get("elements", []):
+        elements = data.get("elements", [])
+        _LOGGER.debug(f"Processing {len(elements)} elements from Overpass API")
+        
+        for element in elements:
             if element.get("type") == "way":
                 tags = element.get("tags", {})
                 
@@ -99,7 +115,10 @@ class OSMTrailData:
                         # Also index by ref if available
                         if trail_ref:
                             trails[f"ref_{trail_ref}"] = trail_info
+                        
+                        _LOGGER.debug(f"Added OSM trail: '{trail_name}' (ref: {trail_ref or 'none'}, id: {element.get('id')})")
 
+        _LOGGER.info(f"Parsed {len(trails)} trail entries from {len([e for e in elements if e.get('type') == 'way'])} ways")
         return trails
 
     def match_trail(self, trail_name: str, trail_number: Optional[str] = None) -> Optional[Dict]:
@@ -113,26 +132,45 @@ class OSMTrailData:
         Returns:
             OSM trail data if found, None otherwise
         """
+        # Normalize the trail name by removing area suffix (e.g., "| Versant du Midi")
+        normalized_name = self._normalize_trail_name(trail_name)
+        
         # Try exact name match first
-        key = trail_name.lower().strip()
+        key = normalized_name.lower().strip()
         if key in self.trails:
+            _LOGGER.debug(f"Exact match found for '{trail_name}' -> OSM trail '{self.trails[key]['name']}'")
             return self.trails[key]
         
         # Try matching by trail number/ref
         if trail_number:
             ref_key = f"ref_{trail_number}"
             if ref_key in self.trails:
+                _LOGGER.debug(f"Ref match found for '{trail_name}' (#{trail_number}) -> OSM trail '{self.trails[ref_key]['name']}'")
                 return self.trails[ref_key]
         
         # Try fuzzy matching (remove common suffixes/prefixes)
         for osm_key, osm_trail in self.trails.items():
             if not osm_key.startswith("ref_"):
                 # Simple fuzzy match - check if names are similar
-                if self._names_similar(trail_name, osm_trail["name"]):
+                if self._names_similar(normalized_name, osm_trail["name"]):
+                    _LOGGER.debug(f"Fuzzy match found for '{trail_name}' -> OSM trail '{osm_trail['name']}'")
                     return osm_trail
         
+        _LOGGER.debug(f"No OSM match found for trail '{trail_name}' (#{trail_number})")
         return None
 
+    def _normalize_trail_name(self, name: str) -> str:
+        """
+        Normalize trail name by removing area suffix.
+        
+        Bromont trail names often include area info like "Miami | Versant du Midi"
+        but OSM names are usually just "Miami". This method strips the area suffix.
+        """
+        # Split on pipe character and take the first part
+        if "|" in name:
+            return name.split("|")[0].strip()
+        return name.strip()
+    
     def _names_similar(self, name1: str, name2: str) -> bool:
         """Check if two trail names are similar enough to be considered a match."""
         # Normalize names
