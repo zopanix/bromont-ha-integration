@@ -27,6 +27,7 @@ class OSMTrailData:
     async def fetch_trails(self) -> Dict[str, Dict]:
         """Fetch trail data from OpenStreetMap with retry logic."""
         # Query for trails using multiple tag combinations
+        # For relations, we need to recurse down (>>) to get member way geometries
         query = f"""
         [out:json][timeout:60];
         (
@@ -34,6 +35,7 @@ class OSMTrailData:
           way["piste:name"](around:{SEARCH_RADIUS},{BROMONT_LAT},{BROMONT_LON});
           relation["piste:type"](around:{SEARCH_RADIUS},{BROMONT_LAT},{BROMONT_LON});
         );
+        (._;>>;);
         out geom;
         """
 
@@ -150,74 +152,231 @@ class OSMTrailData:
                     "lon": element.get("lon")
                 }
         
-        # Second pass: process ways with geometry
+        # Second pass: process ways (LineStrings) with geometry
         for element in elements:
-            if element.get("type") == "way":
-                tags = element.get("tags", {})
-                
-                # Process ski pistes - check multiple tag combinations
-                piste_type = tags.get("piste:type", "")
-                if piste_type in ["downhill", "nordic", "skitour", "sled", "hike"]:
-                    # Try multiple name tags
-                    trail_name = (
-                        tags.get("name") or
-                        tags.get("piste:name") or
-                        tags.get("ref") or
-                        ""
-                    ).strip()
-                    trail_ref = tags.get("ref", "").strip()
+            try:
+                if element and element.get("type") == "way":
+                    tags = element.get("tags", {})
                     
-                    # Extract geometry if available
-                    geometry = element.get("geometry", [])
-                    coordinates = None
-                    center = None
-                    geojson = None
-                    
-                    if geometry:
-                        # Geometry is already included in the response
-                        coordinates = [[node["lat"], node["lon"]] for node in geometry]
-                        
-                        # Calculate center point
-                        if coordinates:
-                            center_lat = sum(coord[0] for coord in coordinates) / len(coordinates)
-                            center_lon = sum(coord[1] for coord in coordinates) / len(coordinates)
-                            center = [center_lat, center_lon]
+                    # Process ski pistes - check multiple tag combinations
+                    piste_type = tags.get("piste:type", "")
+                    if piste_type in ["downhill", "nordic", "skitour", "sled", "hike"]:
+                        trail_info = self._process_way_element(element, tags)
+                        if trail_info:
+                            trail_name = trail_info.get("name")
+                            trail_ref = trail_info.get("ref", "")
                             
-                            # Create GeoJSON LineString
-                            geojson = {
-                                "type": "LineString",
-                                "coordinates": [[coord[1], coord[0]] for coord in coordinates]  # GeoJSON uses [lon, lat]
-                            }
+                            if trail_name:
+                                # Use name as primary key, with ref as fallback
+                                key = trail_name.lower()
+                                trails[key] = trail_info
+                                
+                                # Also index by ref if available
+                                if trail_ref:
+                                    trails[f"ref_{trail_ref}"] = trail_info
+                                
+                                _LOGGER.debug(f"Added OSM way: '{trail_name}' (ref: {trail_ref or 'none'}, id: {element.get('id')}, type: LineString)")
+            except Exception as e:
+                _LOGGER.warning(f"Error processing way element: {e}")
+                continue
+        
+        # Third pass: process relations (Polygons/MultiPolygons for glades/areas)
+        for element in elements:
+            try:
+                if element and element.get("type") == "relation":
+                    tags = element.get("tags", {})
                     
-                    # Create a unique key for matching
-                    if trail_name:
-                        trail_info = {
-                            "osm_id": element.get("id"),
-                            "name": trail_name,
-                            "ref": trail_ref,
-                            "piste_type": tags.get("piste:type"),
-                            "difficulty": tags.get("piste:difficulty"),
-                            "grooming": tags.get("piste:grooming"),
-                            "lit": tags.get("lit"),
-                            "oneway": tags.get("piste:oneway"),
-                            "tags": tags,
-                            "coordinates": coordinates,
-                            "center": center,
-                            "geojson": geojson,
-                        }
-                        
-                        # Use name as primary key, with ref as fallback
-                        key = trail_name.lower()
-                        trails[key] = trail_info
-                        
-                        # Also index by ref if available
-                        if trail_ref:
-                            trails[f"ref_{trail_ref}"] = trail_info
-                        
-                        _LOGGER.debug(f"Added OSM trail: '{trail_name}' (ref: {trail_ref or 'none'}, id: {element.get('id')}, coords: {len(coordinates) if coordinates else 0})")
+                    # Process ski pistes
+                    piste_type = tags.get("piste:type", "")
+                    if piste_type in ["downhill", "nordic", "skitour", "sled", "hike"]:
+                        trail_info = self._process_relation_element(element, tags)
+                        if trail_info:
+                            trail_name = trail_info.get("name")
+                            trail_ref = trail_info.get("ref", "")
+                            
+                            if trail_name:
+                                # Use name as primary key, with ref as fallback
+                                key = trail_name.lower()
+                                trails[key] = trail_info
+                                
+                                # Also index by ref if available
+                                if trail_ref:
+                                    trails[f"ref_{trail_ref}"] = trail_info
+                                
+                                geom_type = trail_info.get("geojson", {}).get("type", "unknown") if trail_info.get("geojson") else "unknown"
+                                _LOGGER.debug(f"Added OSM relation: '{trail_name}' (ref: {trail_ref or 'none'}, id: {element.get('id')}, type: {geom_type})")
+            except Exception as e:
+                _LOGGER.warning(f"Error processing relation element: {e}")
+                continue
 
-        _LOGGER.info(f"Parsed {len(trails)} trail entries from {len([e for e in elements if e.get('type') == 'way'])} ways")
+        way_count = len([e for e in elements if e.get('type') == 'way'])
+        relation_count = len([e for e in elements if e.get('type') == 'relation'])
+        _LOGGER.info(f"Parsed {len(trails)} trail entries from {way_count} ways and {relation_count} relations")
         return trails
+    
+    def _process_way_element(self, element: Dict, tags: Dict) -> Optional[Dict]:
+        """Process a way element (LineString or Polygon if area=yes) and extract trail information."""
+        # Try multiple name tags
+        trail_name = (
+            tags.get("name") or
+            tags.get("piste:name") or
+            tags.get("ref") or
+            ""
+        ).strip()
+        trail_ref = tags.get("ref", "").strip()
+        
+        if not trail_name:
+            return None
+        
+        # Check if this way should be treated as an area/polygon
+        is_area = tags.get("area") == "yes"
+        
+        # Extract geometry if available
+        geometry = element.get("geometry", [])
+        coordinates = None
+        center = None
+        geojson = None
+        
+        if geometry:
+            # Geometry is already included in the response
+            coordinates = [[node["lat"], node["lon"]] for node in geometry]
+            
+            # Calculate center point
+            if coordinates:
+                center_lat = sum(coord[0] for coord in coordinates) / len(coordinates)
+                center_lon = sum(coord[1] for coord in coordinates) / len(coordinates)
+                center = [center_lat, center_lon]
+                
+                # Create GeoJSON - Polygon if area=yes, otherwise LineString
+                if is_area and len(coordinates) >= 3:
+                    # Ensure the polygon is closed (first point == last point)
+                    coords_geojson = [[coord[1], coord[0]] for coord in coordinates]  # GeoJSON uses [lon, lat]
+                    if coords_geojson[0] != coords_geojson[-1]:
+                        coords_geojson.append(coords_geojson[0])  # Close the polygon
+                    
+                    geojson = {
+                        "type": "Polygon",
+                        "coordinates": [coords_geojson]  # Polygon needs array of rings
+                    }
+                    _LOGGER.debug(f"Converted way {element.get('id')} to Polygon (area=yes tag)")
+                else:
+                    # Regular LineString
+                    geojson = {
+                        "type": "LineString",
+                        "coordinates": [[coord[1], coord[0]] for coord in coordinates]  # GeoJSON uses [lon, lat]
+                    }
+        
+        return {
+            "osm_id": element.get("id"),
+            "osm_type": "way",
+            "name": trail_name,
+            "ref": trail_ref,
+            "piste_type": tags.get("piste:type"),
+            "difficulty": tags.get("piste:difficulty"),
+            "grooming": tags.get("piste:grooming"),
+            "lit": tags.get("lit"),
+            "oneway": tags.get("piste:oneway"),
+            "tags": tags,
+            "coordinates": coordinates,
+            "center": center,
+            "geojson": geojson,
+            "is_area": is_area,
+        }
+    
+    def _process_relation_element(self, element: Dict, tags: Dict) -> Optional[Dict]:
+        """Process a relation element (Polygon/MultiPolygon) and extract trail information."""
+        # Try multiple name tags
+        trail_name = (
+            tags.get("name") or
+            tags.get("piste:name") or
+            tags.get("ref") or
+            ""
+        ).strip()
+        trail_ref = tags.get("ref", "").strip()
+        
+        if not trail_name:
+            return None
+        
+        # Extract geometry from relation members
+        members = element.get("members", [])
+        if not members:
+            return None
+            
+        all_coordinates = []
+        outer_rings = []
+        inner_rings = []
+        
+        for member in members:
+            if member and member.get("type") == "way":
+                geometry = member.get("geometry")
+                if geometry and isinstance(geometry, list) and len(geometry) > 0:
+                    ring_coords = [[node["lat"], node["lon"]] for node in geometry if node and "lat" in node and "lon" in node]
+                    if ring_coords:
+                        all_coordinates.extend(ring_coords)
+                        
+                        # Separate outer and inner rings
+                        role = member.get("role", "outer")
+                        if role == "outer":
+                            outer_rings.append(ring_coords)
+                        elif role == "inner":
+                            inner_rings.append(ring_coords)
+        
+        if not all_coordinates:
+            return None
+        
+        # Calculate center point from all coordinates
+        center_lat = sum(coord[0] for coord in all_coordinates) / len(all_coordinates)
+        center_lon = sum(coord[1] for coord in all_coordinates) / len(all_coordinates)
+        center = [center_lat, center_lon]
+        
+        # Create GeoJSON Polygon or MultiPolygon
+        geojson = None
+        if outer_rings:
+            if len(outer_rings) == 1 and not inner_rings:
+                # Simple Polygon
+                geojson = {
+                    "type": "Polygon",
+                    "coordinates": [
+                        [[coord[1], coord[0]] for coord in outer_rings[0]]  # GeoJSON uses [lon, lat]
+                    ]
+                }
+            else:
+                # MultiPolygon or Polygon with holes
+                polygons = []
+                for outer_ring in outer_rings:
+                    # Convert to GeoJSON format [lon, lat]
+                    polygon_coords = [[[coord[1], coord[0]] for coord in outer_ring]]
+                    # Add inner rings (holes) if they exist
+                    for inner_ring in inner_rings:
+                        polygon_coords.append([[coord[1], coord[0]] for coord in inner_ring])
+                    polygons.append(polygon_coords)
+                
+                if len(polygons) == 1:
+                    geojson = {
+                        "type": "Polygon",
+                        "coordinates": polygons[0]
+                    }
+                else:
+                    geojson = {
+                        "type": "MultiPolygon",
+                        "coordinates": polygons
+                    }
+        
+        return {
+            "osm_id": element.get("id"),
+            "osm_type": "relation",
+            "name": trail_name,
+            "ref": trail_ref,
+            "piste_type": tags.get("piste:type"),
+            "difficulty": tags.get("piste:difficulty"),
+            "grooming": tags.get("piste:grooming"),
+            "lit": tags.get("lit"),
+            "oneway": tags.get("piste:oneway"),
+            "tags": tags,
+            "coordinates": all_coordinates,
+            "center": center,
+            "geojson": geojson,
+        }
 
     def match_trail(self, trail_name: str, trail_number: Optional[str] = None,
                    difficulty: Optional[str] = None) -> Optional[Dict]:

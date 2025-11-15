@@ -76,6 +76,12 @@ async def async_setup_entry(
         for trail in trails:
             sensors.append(BromontTrailSensor(coordinator, area, trail))
 
+    # Add individual glade sensors
+    glades_data = coordinator.data.get("glades", {}).get("by_area", {})
+    for area, glades in glades_data.items():
+        for glade in glades:
+            sensors.append(BromontGladeSensor(coordinator, area, glade))
+
     async_add_entities(sensors)
 
 
@@ -714,5 +720,116 @@ class BromontTrailSensor(BromontSensorBase):
             if coordinates:
                 attributes["trail_coordinates"] = coordinates
                 attributes["trail_points_count"] = len(coordinates)
+
+        return attributes
+
+
+# Individual Glade Sensors
+class BromontGladeSensor(BromontSensorBase):
+    """Sensor for individual glade status."""
+
+    def __init__(self, coordinator, area: str, glade: dict):
+        """Initialize the sensor."""
+        self._area = area
+        self._glade = glade
+        glade_name = glade.get("name", "Unknown")
+        glade_number = glade.get("number", "")
+        glade_difficulty = glade.get("difficulty", "")
+
+        # Try to match with OSM data (pass difficulty for better matching)
+        self._osm_data = None
+        if hasattr(coordinator, 'osm_data') and coordinator.osm_data:
+            self._osm_data = coordinator.osm_data.match_trail(
+                glade_name,
+                glade_number,
+                glade_difficulty
+            )
+
+        # Create a safe sensor ID from glade name and number
+        # If we have OSM data, use the OSM way ID as the object_id
+        if self._osm_data and self._osm_data.get("osm_id"):
+            sensor_id = f"glade_osm_{self._osm_data['osm_id']}"
+        else:
+            safe_name = re.sub(r"[^a-z0-9_]", "_", glade_name.lower())
+            safe_name = re.sub(r"_+", "_", safe_name).strip("_")
+            sensor_id = (
+                f"glade_{glade_number}_{safe_name}"
+                if glade_number
+                else f"glade_{safe_name}"
+            )
+
+        super().__init__(coordinator, sensor_id, f"Glade: {glade_name}")
+        self._attr_icon = "mdi:pine-tree"
+
+    @property
+    def native_value(self):
+        """Return the state."""
+        # Get current glade data from coordinator
+        glades_data = self.coordinator.data.get("glades", {}).get("by_area", {})
+        area_glades = glades_data.get(self._area, [])
+
+        # Find the matching glade by number or name
+        glade_number = self._glade.get("number")
+        glade_name = self._glade.get("name")
+
+        for glade in area_glades:
+            if glade.get("number") == glade_number and glade.get("name") == glade_name:
+                return glade.get("day", "Unknown")
+
+        return "Unknown"
+
+    @property
+    def extra_state_attributes(self):
+        """Return additional attributes."""
+        # Get current glade data from coordinator
+        glades_data = self.coordinator.data.get("glades", {}).get("by_area", {})
+        area_glades = glades_data.get(self._area, [])
+
+        # Find the matching glade
+        glade_number = self._glade.get("number")
+        glade_name = self._glade.get("name")
+
+        attributes = {
+            "glade_number": self._glade.get("number", ""),
+            "glade_name": self._glade.get("name", ""),
+            "area": self._area,
+            "difficulty": "Unknown",
+            "day_status": "Unknown",
+            "night_status": "Unknown",
+        }
+
+        # Update with current glade data
+        for glade in area_glades:
+            if glade.get("number") == glade_number and glade.get("name") == glade_name:
+                attributes.update({
+                    "difficulty": glade.get("difficulty", "Unknown"),
+                    "day_status": glade.get("day", "Unknown"),
+                    "night_status": glade.get("night", "-"),
+                })
+                break
+
+        # Add OSM data if available
+        if self._osm_data:
+            attributes.update({
+                "osm_id": self._osm_data.get("osm_id"),
+                "osm_url": f"https://www.openstreetmap.org/way/{self._osm_data.get('osm_id')}",
+            })
+            
+            # Add geographic data for map display
+            center = self._osm_data.get("center")
+            if center:
+                attributes["latitude"] = center[0]
+                attributes["longitude"] = center[1]
+            
+            # Add full glade path as GeoJSON for advanced mapping
+            geojson = self._osm_data.get("geojson")
+            if geojson:
+                attributes["geojson"] = geojson
+            
+            # Add all coordinates for custom visualizations
+            coordinates = self._osm_data.get("coordinates")
+            if coordinates:
+                attributes["glade_coordinates"] = coordinates
+                attributes["glade_points_count"] = len(coordinates)
 
         return attributes
